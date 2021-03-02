@@ -1,16 +1,18 @@
-# This is a sample Python script.
+import requests
+import json
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+#Создаем массив имен
+Names = ['Ivan','John','Petr','Serg','Helga']
+file = open('Result.csv', 'w')
+file.write('name,age,count'+'\n')
+#Создаем гет запрос
 
+for i in range(0,len(Names)):
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    Row = requests.get('https://api.agify.io/?name='+Names[i])
+    Parsed=json.loads(Row.text)
+    NextStr=Parsed["name"]+',' +str(Parsed["age"])+','+str(Parsed["count"])
+    print(NextStr)
+    file.write(NextStr+'\n')
 
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+file.close()
